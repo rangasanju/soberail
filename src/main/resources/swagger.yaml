@@ -22,7 +22,7 @@ paths:
   /ba:
     get:
       tags:
-        - BreathAnalyzer
+        - BreathResult
       summary: Gets all the BA records
       description: Gets all the BA records
       operationId: getBARecords
@@ -34,11 +34,11 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/BreathAnalyzer'
+                  $ref: '#/components/schemas/BreathResult'
 
     post:
       tags:
-        - BreathAnalyzer
+        - BreathResult
       summary: Add a BA record
       description: Add a BA record
       operationId: addBA
@@ -47,7 +47,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BreathAnalyzer'
+              $ref: '#/components/schemas/BreathResult'
 
         required: true
       responses:
@@ -56,10 +56,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BreathAnalyzer'
+                $ref: '#/components/schemas/BreathResult'
             application/xml:
               schema:
-                $ref: '#/components/schemas/BreathAnalyzer'
+                $ref: '#/components/schemas/BreathResult'
         '405':
           description: Invalid input
 
@@ -67,7 +67,7 @@ paths:
   /ba/{id}:
     get:
       tags:
-        - BreathAnalyzer
+        - BreathResult
       summary: find a BA record by Id
       description: find a BA record by Id
       operationId: getBARecordById
@@ -85,7 +85,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BreathAnalyzer'
+                $ref: '#/components/schemas/BreathResult'
         '400':
           description: Invalid ID
           content:
@@ -101,11 +101,11 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
 
-  /ba/person/{id}:
+  /ba/tester/{id}:
     get:
       tags:
-        - BreathAnalyzer
-      summary: find all BA record for a person by Id
+        - BreathResult
+      summary: find all BA record for a tester by Id
       description: find all BA record for a person by Id
       operationId: getAllBARecordsById
       parameters:
@@ -122,7 +122,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BreathAnalyzerResponseDto'
+                $ref: '#/components/schemas/BreathResultResponseDto'
         '400':
           description: Invalid ID
           content:
@@ -140,7 +140,7 @@ paths:
   /ba/location/{locationId}:
     get:
       tags:
-        - BreathAnalyzer
+        - BreathResult
       summary: Gets all BA record of a location
       description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
       operationId: getBARecordsForLocation
@@ -158,7 +158,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BreathAnalyzerResponseDto'
+                $ref: '#/components/schemas/BreathResultResponseDto'
 
         '400':
           description: Invalid ID
@@ -468,8 +468,14 @@ paths:
 
 components:
   schemas:
+    uuid:
+      type: string
+      format: uuid
+      description: UUID
+      example: 00000000-0000-0000-0000-000000000000
+      pattern: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
 
-    BreathAnalyzer:
+    BreathResult:
       x-java-class-annotations:
         -  "@javax.persistence.Entity"
       type: "object"
@@ -512,21 +518,21 @@ components:
           type: "string"
 
       xml:
-        name: "BreathAnalyzer"
+        name: "BreathResult"
 
-    BreathAnalyzerResponse:
+    BreathResultResponse:
       type: object
       properties:
         phoneNumbers:
           type: array
           items:
-            $ref: '#/components/schemas/BreathAnalyzer'
+            $ref: '#/components/schemas/BreathResult'
 
-    BreathAnalyzerResponseDto:
+    BreathResultResponseDto:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/BreathAnalyzerResponse'
+          $ref: '#/components/schemas/BreathResultResponse'
         Meta:
           $ref: '#/components/schemas/Meta'
 
@@ -623,10 +629,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/BreathAnalyzer'
+            $ref: '#/components/schemas/BreathResult'
         application/xml:
           schema:
-            $ref: '#/components/schemas/BreathAnalyzer'
+            $ref: '#/components/schemas/BreathResult'
     UserArray:
       description: List of user object
       content:

@@ -21,7 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class BreathAnalyzer implements Serializable {
+public class BreathResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
