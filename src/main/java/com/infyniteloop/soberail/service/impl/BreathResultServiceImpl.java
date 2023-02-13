@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,7 +46,7 @@ public class BreathResultServiceImpl implements BreathResultService {
     public BreathResultResponseDto findAllByTesterId(UUID id, int pageNo, int pageSize) {
         // Prepare page information
         Pageable paging = PageRequest.of(pageNo, pageSize);
-        Page<BreathResult> pagedResult = repository.findAllByTesterId(id, paging);
+        Page<BreathResult> pagedResult = repository.findByTesterId(id, paging);
 
         // Check if result has contents
         if (pagedResult.hasContent()) {

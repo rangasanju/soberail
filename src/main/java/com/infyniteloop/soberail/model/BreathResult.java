@@ -2,15 +2,14 @@ package com.infyniteloop.soberail.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
@@ -25,9 +24,17 @@ public class BreathResult implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
+
+
+
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonProperty("recordId")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id = null;
 
 
@@ -61,12 +68,12 @@ public class BreathResult implements Serializable {
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
     @JsonProperty("calibrationDate")
-    private String calibrationDate = null;
+    private Timestamp calibrationDate = null;
 
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
     @JsonProperty("testDateTime")
-    private String testDateTime = null;
+    private Timestamp testDateTime = null;
 
     @JsonProperty("LAT")
     private String lattitude = null;
