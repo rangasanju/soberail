@@ -32,7 +32,7 @@ public class BreathResult implements Serializable {
 
 
     @JsonProperty("testerId")
-    private String testerId = null;
+    private UUID testerId = null;
 
 
     @JsonProperty("result")

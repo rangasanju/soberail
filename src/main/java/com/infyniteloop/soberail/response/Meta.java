@@ -5,11 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class BreathResultResponseDto {
-    private BreathResultResponse data;
-    private Meta meta;
-
-
+@NoArgsConstructor
+public class Meta {
+    private long totalRecords;
+    private long totalPages;
 }
