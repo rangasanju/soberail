@@ -1,4 +1,5 @@
-package com.infyniteloop.soberail.model;
+package com.infyniteloop.soberail.dto;
+
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
@@ -17,19 +18,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-public class Location {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+public class LocationDto {
     @JsonProperty("locationId")
-    private UUID id = null;
-
-    private String name = null;
-
+    private UUID locationId = null;
+    @JsonProperty("locationName")
+    private String locationName = null;
+    @JsonProperty("parent")
     private UUID parent = null;
-
-    private String type = null;
-
+    @JsonProperty("locationType")
+    private String locationType = null;
 
 }
