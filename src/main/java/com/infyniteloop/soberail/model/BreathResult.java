@@ -33,6 +33,7 @@ public class BreathResult implements Serializable {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
+    @JsonProperty("id")
     private UUID id = null;
 
 
@@ -64,7 +65,7 @@ public class BreathResult implements Serializable {
     private String exhaleTime = null;
 
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern="yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     @JsonProperty("calibrationDate")
     private Timestamp calibrationDate = null;
 
