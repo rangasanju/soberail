@@ -4,7 +4,11 @@ import com.infyniteloop.soberail.dto.LocationDto;
 import com.infyniteloop.soberail.exception.ResourceNotFoundException;
 import com.infyniteloop.soberail.model.Location;
 import com.infyniteloop.soberail.repository.LocationRepository;
+import com.infyniteloop.soberail.response.BreathResultResponse;
+import com.infyniteloop.soberail.response.LocationResponse;
 import com.infyniteloop.soberail.service.LocationService;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +23,23 @@ public class LocationController {
 
     @Autowired
     private LocationService service;
+
+
+
+    /************************************************************************************************
+     * http://localhost:8080/location/all
+     *
+     * @param
+     * @return BreathResultResponseDto
+     * @throws
+     */
+    @GetMapping()
+    public LocationResponse getAllBARecords(@RequestParam(defaultValue = "0") @Min(value = 0, message = "Page number must be greater than or equal to 0") Integer pageNo,
+                                            @RequestParam(defaultValue = "10") @Min(value = 1, message = "Page size must be greater than or equal to 1")
+                                                @Max(value = 100, message = "Page size must be less than or equal to 100") Integer pageSize) {
+        return service.getAllLocations(pageNo,pageSize);
+
+    }
 
 
     @GetMapping("/{id}")
