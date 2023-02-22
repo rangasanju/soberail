@@ -22,7 +22,7 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @JsonProperty("locationId")
+    @JsonProperty("id")
     private UUID id = null;
 
     private String name = null;

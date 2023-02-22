@@ -1,10 +1,12 @@
 package com.infyniteloop.soberail.service.impl;
 
-import com.infyniteloop.soberail.dto.BreathResultDto;
 import com.infyniteloop.soberail.exception.ResourceNotFoundException;
 import com.infyniteloop.soberail.mapper.BreathResultMapper;
 import com.infyniteloop.soberail.model.BreathResult;
 import com.infyniteloop.soberail.repository.BreathResultRepository;
+import com.infyniteloop.soberail.response.BreathResultResponse;
+import com.infyniteloop.soberail.response.BreathResultResponseList;
+import com.infyniteloop.soberail.response.Meta;
 import com.infyniteloop.soberail.service.BreathResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,33 +29,59 @@ public class BreathResultServiceImpl implements BreathResultService {
     BreathResultMapper mapper;
 
     @Override
-    public  Page<BreathResultDto> findAll(int pageNo, int pageSize) {
+    public BreathResultResponse findAll(int pageNo, int pageSize) {
 
         // Prepare page information
         Pageable paging = PageRequest.of(pageNo, pageSize);
         Page<BreathResult> pagedResult = repository.findAll(paging);
 
-        return pagedResult.map(mapper::toDto);
+        if (pagedResult.hasContent()) {
+
+            BreathResultResponseList records = BreathResultResponseList.builder()
+                    .records(pagedResult.map(mapper::toDto).getContent())
+                    .build();
+
+            return BreathResultResponse.builder()
+                    .data(records)
+                    .meta(new Meta(pagedResult.getTotalElements(), pagedResult.getTotalPages()))
+                    .build();
+
+        } else {
+            // else return empty reponse
+            return BreathResultResponse.builder()
+                    .data(new BreathResultResponseList(new ArrayList<>()))
+                    .meta(new Meta())
+                    .build();
+        }
 
     }
 
     @Override
-    public Page<BreathResultDto> findAllByTesterId(UUID id, int pageNo, int pageSize) {
+    public BreathResultResponse findAllByTesterId(UUID id, int pageNo, int pageSize) {
         // Prepare page information
         Pageable paging = PageRequest.of(pageNo, pageSize);
         Page<BreathResult> pagedResult = repository.findByTesterId(id, paging);
 
-        return pagedResult.map(mapper::toDto);
 
-//        // Check if result has contents
-//        if (pagedResult.hasContent()) {
-//            return new BreathResultResponse(new BreathResultResponseList(pagedResult.getContent()),
-//                    new Meta(pagedResult.getTotalElements(), pagedResult.getTotalPages()));
-//        } else {
-//            // else return empty reponse
-//            return new BreathResultResponse(new BreathResultResponseList(new ArrayList<>()),
-//                    new Meta());
-//        }
+        if (pagedResult.hasContent()) {
+
+            BreathResultResponseList records = BreathResultResponseList.builder()
+                    .records(pagedResult.map(mapper::toDto).getContent())
+                    .build();
+
+            return BreathResultResponse.builder()
+                    .data(records)
+                    .meta(new Meta(pagedResult.getTotalElements(), pagedResult.getTotalPages()))
+                    .build();
+
+        } else {
+            // else return empty reponse
+            return BreathResultResponse.builder()
+                    .data(new BreathResultResponseList(new ArrayList<>()))
+                    .meta(new Meta())
+                    .build();
+        }
+
     }
 
     @Override
